@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>jQuery Ajax 刷新</title>
+        <title>jQuery Ajax 實現不刷新頁面提交資料 datainput (後端使用 PHP 處理回傳 json)</title>
     </head>
     <body>
-        <h1>刷新頁面</h1>
+        <h1>jQuery Ajax 實現不刷新頁面提交資料 datainput (後端使用 PHP 處理回傳 json)</h1>
         <hr><br>
-        <form id="demo">
-            刷新 ： <input type="text" id="domain">
+        <form id="datainput">
+            网域：<input type="text" id="domain">
             <p>
-            密码 ： <input type="password" id="passid">
+            密码：<input type="text" id="passid">
             <p>
-            <button type="button" id="submitID">執行</button>
+            <button type="button" id="submitID">執行範例</button>
         </form>
         <br><hr>
         <p id="result"></p> <!-- 顯示回傳資料 -->
@@ -21,7 +21,7 @@
             $("#submitID").click(function() { //ID 為 submitID 的按鈕被點擊時
                 $.ajax({
                     type: "POST", //傳送方式
-                    url: "service.php", //傳送目的地
+                    url: "server.php", //傳送目的地
                     dataType: "json", //資料格式
                     data: { //傳送資料
                         domain: $("#domain").val(), //表單欄位 ID domain
@@ -29,15 +29,15 @@
                     },
                     success: function(data) {
                         if (data.domain) { //如果後端回傳 json 資料有 domain
-                            $("#demo")[0].reset(); //重設 ID 為 demo 的 form (表單)
-                            $("#result").html('<font color="#007500">您的domain「<font color="#0000ff">' + data.domain + '</font>」，pass 「<font color="#0000ff">' + data.passid + '</font>」！</font>');
+                            $("#datainput")[0].reset(); //重設 ID 為 datainput 的 form (表單)
+                            $("#result").html('<font color="#007500">您的 domain : <font color="#0000ff">' + data.domain + '</font><p>密码為 : <font color="#0000ff">' + data.passid + '</font></font>');
                         } else { //否則讀取後端回傳 json 資料 errorMsg 顯示錯誤訊息
-                            $("#demo")[0].reset(); //重設 ID 為 demo 的 form (表單)
+                            $("#datainput")[0].reset(); //重設 ID 為 datainput 的 form (表單)
                             $("#result").html('<font color="#ff0000">' + data.errorMsg + '</font>');
                         }
                     },
                     error: function(jqXHR) {
-                        $("#demo")[0].reset(); //重設 ID 為 demo 的 form (表單)
+                        $("#datainput")[0].reset(); //重設 ID 為 datainput 的 form (表單)
                         $("#result").html('<font color="#ff0000">發生錯誤：' + jqXHR.status + '</font>');
                     }
                 })
