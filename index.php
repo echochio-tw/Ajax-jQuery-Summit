@@ -6,6 +6,7 @@
     <body>
         <h1>jQuery Ajax 實現不刷新頁面提交資料 datainput (後端使用 PHP 處理回傳 json)</h1>
         <hr><br>
+        <div id="loading"></div>
         <form id="datainput">
             网域：<input type="text" id="domain">
             <p>
@@ -27,6 +28,12 @@
                         domain: $("#domain").val(), //表單欄位 ID domain
                         passid: $("#passid").val() //表單欄位 ID passid
                     },
+                     beforeSend: function () {
+                        $('#loading').append('<div id="loading-image"><img src="loading.gif" alt="Loading..." /></div>');
+                        $("#submitID").val("正在處理......");
+                        $("#submitID").css("background-color","aqua");
+                        $("#submitID").attr({ disabled: "disabled" });
+                    },
                     success: function(data) {
                         if (data.domain) { //如果後端回傳 json 資料有 domain
                             $("#datainput")[0].reset(); //重設 ID 為 datainput 的 form (表單)
@@ -35,6 +42,12 @@
                             $("#datainput")[0].reset(); //重設 ID 為 datainput 的 form (表單)
                             $("#result").html('<font color="#ff0000">' + data.errorMsg + '</font>');
                         }
+                    },
+                    complete: function () {
+                        $('#loading-image').remove();
+                        $("#submitID").val("執行範例");
+                        $("#submitID").css("background-color","white");
+                        $("#submitID").removeAttr('disabled');
                     },
                     error: function(jqXHR) {
                         $("#datainput")[0].reset(); //重設 ID 為 datainput 的 form (表單)
