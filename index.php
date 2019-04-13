@@ -28,7 +28,7 @@
                         domain: $("#domain").val(), //表單欄位 ID domain
                         passid: $("#passid").val() //表單欄位 ID passid
                     },
-                     beforeSend: function () {
+                     beforeSend: function () { //送前顯示 loading.gif 與 submitID 改顏色與內容 且不可輸入
                         $('#loading').append('<div id="loading-image"><img src="loading.gif" alt="Loading..." /></div>');
                         $("#submitID").val("正在處理......");
                         $("#submitID").css("background-color","aqua");
@@ -43,7 +43,7 @@
                             $("#result").html('<font color="#ff0000">' + data.errorMsg + '</font>');
                         }
                     },
-                    complete: function () {
+                    complete: function () {  //完成後移除 loading.gif 與 submitID 改白色與回可輸入
                         $('#loading-image').remove();
                         $("#submitID").val("執行範例");
                         $("#submitID").css("background-color","white");
